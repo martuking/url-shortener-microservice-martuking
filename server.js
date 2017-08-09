@@ -10,14 +10,16 @@ var app = express();
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
-
+var idcounter=1;
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 app.use('/:original',function(request,response){
   var original = request.originalUrl;
-  
+  var short = 'https://url-shortener-microservice-martuking.glitch.me/'+idcounter;
+  idcounter++;
+  response.json({original_url:original, short_url:short});
 });
 
 // listen for requests :)
