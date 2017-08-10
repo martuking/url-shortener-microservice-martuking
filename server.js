@@ -15,6 +15,7 @@ app.get('/:urlToShorten',function(request,response,next){
   var expression = /[-a-zA-Z0-9@:%\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%\+.~#?&//=]*)?/gi;
   var url = request.params.urlToShorten;
   if(expression.test(url)===true){
+    var numero = Math.floor(Math.random()*100000).toString();
     
   }
   response.json({original_url:url,short_url:"url corta"});
