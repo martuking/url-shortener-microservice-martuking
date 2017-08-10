@@ -7,4 +7,5 @@ var urlSchema = new Schema(
   },
   { timestap: true }
 );
-var ModelClass = mongoose.model();
+var ModelClass = mongoose.model('tabla',urlSchema);
+module.exports = ModelClass;

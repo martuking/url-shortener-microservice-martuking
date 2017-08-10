@@ -7,6 +7,7 @@ var dbStructure = require('./db_structure.js');
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'));
+//mongoose.connect(process.env.MONGODB_URI);
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
