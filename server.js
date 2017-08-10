@@ -28,6 +28,7 @@ app.get("/:urlToShorten", function(request, response, next) {
       }
     });
     //return de date with it's correct format
+    return response.json({data});
   } else {
     return response.send("write an existing url of a real website");
   }
