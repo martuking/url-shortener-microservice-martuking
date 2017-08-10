@@ -33,7 +33,15 @@ app.get("/:urlToShorten", function(request, response, next) {
     return response.send("write an existing url of a real website");
   }
 });
-
+app.get("/:urlToForward",function(request,response,next){
+  var corto=request.params.urlToForward;
+  dbStructure.findOne({shortUrl:corto},function(err,data){
+    if(err){
+      return response.send('no such shortUrl in the database');
+    }
+    response.redirect(301,data.originalUrl);
+  });
+});
 
 
 
