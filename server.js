@@ -13,11 +13,11 @@ app.get("/", function (request, response) {
 });
 app.get("/:urlToShorten", function(request, response, next) {
   var expression = /[-a-zA-Z0-9@:%\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%\+.~#?&//=]*)?/gi;
-  var url = request.params.urlToShorten;
-  if (expression.test(url) === true) {
+  var original = request.params.urlToShorten;
+  if (expression.test(original) === true) {
     var numero = Math.floor(Math.random() * 100000).toString();
     var data = new dbStructure({
-      originalUrl: url,
+      originalUrl: original,
       shortUrl: numero
     });
     data.save(function(err) {
@@ -28,9 +28,10 @@ app.get("/:urlToShorten", function(request, response, next) {
       }
     });
   } else {
-    
+    return response.send("write an existing url website");
   }
 });
+
 
 
 
