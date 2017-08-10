@@ -11,15 +11,27 @@ mongoose.connect(process.env.MONGO_URI);
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-app.get('/:urlToShorten',function(request,response,next){
+app.get("/:urlToShorten", function(request, response, next) {
   var expression = /[-a-zA-Z0-9@:%\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%\+.~#?&//=]*)?/gi;
   var url = request.params.urlToShorten;
-  if(expression.test(url)===true){
-    var numero = Math.floor(Math.random()*100000).toString();
+  if (expression.test(url) === true) {
+    var numero = Math.floor(Math.random() * 100000).toString();
+    var data = new dbStructure({
+      originalUrl: url,
+      shortUrl: numero
+    });
+    data.save(function(err) {
+      if (err) {
+        return response.send(
+          "An error occurred while saving data in the database"
+        );
+      }
+    });
+  } else {
     
   }
-  response.json({original_url:url,short_url:"url corta"});
 });
+
 
 
 var listener = app.listen(process.env.PORT, function () {
