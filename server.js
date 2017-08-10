@@ -3,7 +3,7 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 var app = express();
 var mongoose = require('mongoose');
-var dbStructure = require('./db_structure.js');
+var db = require('./db_structure.js');
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'));
@@ -16,7 +16,7 @@ app.get("/:urlToShorten", function(request, response, next) {
   var original = request.params.urlToShorten;
   if (expression.test(original) === true) {
     var numero = Math.floor(Math.random() * 100000).toString();
-    var data = new dbStructure({
+    var data = new db({
       originalUrl: original,
       shortUrl: numero
     });
@@ -33,16 +33,22 @@ app.get("/:urlToShorten", function(request, response, next) {
     return response.send("write an existing url of a real website");
   }
 });
-app.get("/:urlToForward",function(request,response,next){
-  var corto=request.params.urlToForward;
-  dbStructure.findOne({shortUrl:corto},function(err,data){
-    if(err){
-      return response.send('no such shortUrl in the database');
+app.get("/:urlToForward", function(request, response, next) {
+  var corto = request.params.urlToForward;
+  db.findOne({ shortUrl: corto }, function(err, data) {
+    if (err) {
+      return response.send("no such shortUrl in the database");
     }
-    response.redirect(301,data.originalUrl);
+    var re = new RegExp("^(http||https)://", "i");
+    var strToCheck = data.originalUrl;
+    if (re.test(strToCheck)) {
+      response.redirect(301, data.originalUrl);
+    }
+    else {
+      response.redirect(301,'https://');
+    }
   });
 });
-
 
 
 var listener = app.listen(process.env.PORT, function () {
