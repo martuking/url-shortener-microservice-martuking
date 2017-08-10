@@ -9,7 +9,10 @@ app.use(express.static('public'));
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-app.get('/new/:');
+app.get('/new/:urlToShorten',function(request,response,next){
+  var url = request.params.urlToShorten;
+  response.send("esta funcionando y esta es tu url:"+url);
+});
 
 
 var listener = app.listen(process.env.PORT, function () {
